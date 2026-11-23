@@ -24,7 +24,9 @@ def load_laugh() -> str:
     here = bot_dir or os.path.dirname(os.path.abspath(__file__))
     path = os.path.join(here, LAUGH_FILE)
     with open(path, "r", encoding="utf-8") as f:
-        line = f.read().rstrip("\r\n")
+        # strip() not rstrip(): a line of only spaces must fail the
+        # empty check below instead of being written as a blank entry.
+        line = f.read().strip()
     if not line:
         raise ValueError("laugh is empty")
     if "\n" in line or "\r" in line:
